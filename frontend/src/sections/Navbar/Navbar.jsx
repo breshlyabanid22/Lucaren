@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Logo from "/lucaren-logo.svg";
-import { UserContext } from "./App";
-import { client } from "./Url";
+import { UserContext } from "../../App";
+import { client } from "../../Url";
 import {
   faArrowRightFromBracket,
   faGear,
@@ -79,34 +79,44 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="fixed z-10 flex flex-row items-center justify-between w-full 2xl:text-lg px-4 py-2 mx-auto text-white bg-black md:px-8 2xl:px-20 flex-nowrap">
-        <div>
-          <img src={Logo} alt="Lucaren logo" />
-        </div>
+      <div className="fixed flex flex-row items-center justify-between w-full p-4 mx-auto text-white bg-black md:px-8 2xl:px-20 flex-nowrap">
+
+        <div className="hover:text-amber-300 cursor-pointer text-2xl ">
+            <Link to="/">
+            <span>Lu</span>
+              <span className="text-amber-300">car</span>
+            <span>en</span>
+            </Link>
+          </div>
+
         <div className="hidden md:block">
-          <ul className="grid content-start grid-cols-3 gap-4 p-0 m-0">
+          <ul className="grid content-start text-center text-base grid-cols-4 gap-24">
             <li>
               <Link
                 to="/"
                 className="no-underline hover:text-amber-300 text-slate-100"
-              >
-                Home
+              >Home
               </Link>
             </li>
             <li>
               <Link
-                to="/explore"
+                to="/cars"
                 className="no-underline text-slate-100 hover:text-amber-300"
-              >
-                Explore
+              >Cars
               </Link>
             </li>
             <li>
               <Link
-                to="/rent-a-car"
+                to="/about"
                 className="no-underline text-slate-100 hover:text-amber-300"
-              >
-                Rent a Car
+              >About
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/contact"
+                className="no-underline text-slate-100 hover:text-amber-300"
+              >Contact
               </Link>
             </li>
           </ul>

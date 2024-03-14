@@ -1,16 +1,17 @@
 import React, { createContext } from 'react';
 import { useState, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom'
-import  Navbar from './Navbar'
+import  Navbar from './sections/Navbar/Navbar'
 import { client }  from './Url'
-import Home from './Home';
+import Home from './sections/Home/Home';
 import Login from './Login';
 import Registration from './Registration';
-import Explore from './Explore';
-import RentACar from './RentACar';
-import ProfileSettings from './ProfileSettings';
-import CarListing from './CarListing';
-import ManageProfile from './ManageProfile';
+import ProfileSettings from './sections/Profile/ProfileSettings';
+import CarListing from './sections/Cars/CarListing';
+import ManageProfile from './sections/Profile/ManageProfile';
+import About from './sections/About/About';
+import Contact from './sections/Contact/Contact';
+import Cars from './sections/Cars/Cars';
 
 export const UserContext = createContext();
 
@@ -35,13 +36,21 @@ function App() {
         <Routes>
           <Route path='/' element={<Navbar/>}>
             <Route index element={<Home/>}/>
+            
             <Route path='/signup' element={<Registration/>}/>
             <Route path='/login' element={<Login />}/>
-            <Route path='/explore' element={<Explore/>}/>
-            <Route path='/rent-a-car' element={<RentACar/>}/>
+
+            <Route path='/cars' element={<Cars/>}/>
+            <Route path='/about' element={<About/>}/>
+            <Route path='/contact' element={<Contact/>}/>
+
+
+
             <Route path='/account-settings' element={<ProfileSettings/>}>
               <Route index element={<ManageProfile/>}/>
+
               <Route path='/account-settings/car-listing' element={<CarListing/>}/>
+
             </Route>
           </Route>
         </Routes> 

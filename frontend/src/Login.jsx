@@ -44,7 +44,7 @@ const Login = () => {
   if (currentUser) {
     return (
       <>
-        <Navigate to="/explore" />
+        <Navigate to="/cars" />
       </>
     );
   }
