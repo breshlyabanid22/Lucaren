@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useState } from "react";
 import { client } from "./Url";
 import { UserContext } from "./App";
@@ -6,100 +5,96 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 
 const ManageProfile = () => {
+  const [currentUser, setCurrentUser] = useContext(UserContext);
+  const [userProfile, setUserProfile] = useState("");
+  // Declares the path of the avatar placeholder
+  const profilePlaceholder = "/images/profile_placeholder.jpg";
 
-    const [currentUser, setCurrentUser] = useContext(UserContext);
-    const [userProfile, setUserProfile] = useState("");
-    // Declares the path of the avatar placeholder
-    const profilePlaceholder = "/images/profile_placeholder.jpg";
-    
-    const baseUrl = "http://localhost:8000";
-  
-    //The profile placeholder is displayed if the user did not upload a profile
-    const imagePath = userProfile ? userProfile : profilePlaceholder;
-  
-    const [formData, setFormData] = useState({
-      username: "",
-      email: "",
-      firstname: "",
-      lastname: "",
-      password: "",
-      contact: "",
-      user_profile: "",
-    });
-   
-  
-    useEffect(() => {
-  
-      if (currentUser) {
-        fetchUserData();
-      } 
-    }, [currentUser]);
-  
-    const fetchUserData = async () => {
-      try {
-        const response = await client.get("/user");
-        const userData = response.data;
-  
-        setUserProfile(userData.user_profile);
-  
-        setFormData({
-          username: userData.username,
-          email: userData.email,
-          firstname: userData.firstname,
-          lastname: userData.lastname,
-          password: userData.password,
-          contact: userData.contact,
-        });
-      } catch (error) {
-        console.error("Error fetching the data: ", error);
-      }
-    };
-    const handleChange = (e) => {
-      const { name, value, files } = e.target;
-  
-      if (name === "user_profile" && files) {
-        setFormData((prevFormData) => ({ ...prevFormData, [name]: files[0] }));
-      } else {
-        setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-      }
-    };
-  
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-  
-      const formDataToSend = new FormData();
-  
-      //Conditionally append the formData if the value is null or not
-      Object.entries(formData).forEach(([key, value]) => {
-        if (value !== "" || value !== null) {
-          formDataToSend.append(key, value);
-        }
+  const baseUrl = "http://localhost:8000";
+
+  //The profile placeholder is displayed if the user did not upload a profile
+  const imagePath = userProfile ? userProfile : profilePlaceholder;
+
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    firstname: "",
+    lastname: "",
+    password: "",
+    contact: "",
+    user_profile: "",
+  });
+
+  useEffect(() => {
+    if (currentUser) {
+      fetchUserData();
+    }
+  }, [currentUser]);
+
+  const fetchUserData = async () => {
+    try {
+      const response = await client.get("/user");
+      const userData = response.data;
+
+      setUserProfile(userData.user_profile);
+
+      setFormData({
+        username: userData.username,
+        email: userData.email,
+        firstname: userData.firstname,
+        lastname: userData.lastname,
+        password: userData.password,
+        contact: userData.contact,
       });
-  
-      try {
-        //gets the token from the browser
-        
-        const csrfToken = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("csrftoken="))
-          .split("=")[1];
-          
-        const response = await client.put("/user/profile", formDataToSend, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            "X-CSRFToken": csrfToken,
-          },
-        });
-  
-        window.location.reload(); //reloads the page after update
-      } catch (error) {
-        console.error("Error updating the profile: ", error);
+    } catch (error) {
+      console.error("Error fetching the data: ", error);
+    }
+  };
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+
+    if (name === "user_profile" && files) {
+      setFormData((prevFormData) => ({ ...prevFormData, [name]: files[0] }));
+    } else {
+      setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formDataToSend = new FormData();
+
+    //Conditionally append the formData if the value is null or not
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value !== "" || value !== null) {
+        formDataToSend.append(key, value);
       }
-    };
+    });
+
+    try {
+      //gets the token from the browser
+
+      const csrfToken = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("csrftoken="))
+        .split("=")[1];
+
+      const response = await client.put("/user/profile", formDataToSend, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": csrfToken,
+        },
+      });
+
+      window.location.reload(); //reloads the page after update
+    } catch (error) {
+      console.error("Error updating the profile: ", error);
+    }
+  };
   return (
     <>
       <div className="flex justify-center h-screen pt-20 mx-auto text-white md:w-10/12">
-      
         <div className="md:mx-10 w-[700px] mt-20 2xl:mt-28 2xl:text-lg 2xl:w-[800px]">
           <div className="text-lg 2xl:text-xl">Profile Settings</div>
           <form
@@ -212,11 +207,19 @@ const ManageProfile = () => {
                 htmlFor="user_profile"
                 className="flex flex-col items-center justify-center gap-8 cursor-pointer"
               >
-                <img
-                  src={baseUrl + imagePath}
-                  alt="profile picture"
-                  className="rounded-full object-cover cursor-pointer w-[150px] h-[150px] border-2 p-1 border-yellow hover:border-white"
-                />
+                {formData.user_profile ? (
+                  <img
+                    src={URL.createObjectURL(formData.user_profile)}
+                    alt="profile picture"
+                    className="rounded-full object-cover cursor-pointer w-[150px] h-[150px] border-2 p-1 border-yellow hover:border-white"
+                  />
+                ) : (
+                  <img
+                    src={baseUrl + imagePath}
+                    alt="profile picture"
+                    className="rounded-full object-cover cursor-pointer w-[150px] h-[150px] border-2 p-1 border-yellow hover:border-white"
+                  />
+                )}
                 <span className="pb-1 duration-75 hover:border-b-2 hover:text-yellow hover:border-b-yellow">
                   <FontAwesomeIcon icon={faUpload} className="mr-2" />
                   Upload Profile
@@ -234,7 +237,7 @@ const ManageProfile = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default ManageProfile
+export default ManageProfile;

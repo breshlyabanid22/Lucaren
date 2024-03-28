@@ -12,6 +12,7 @@ import ProfileSettings from './ProfileSettings';
 import CarListing from './CarListing';
 import ManageProfile from './ManageProfile';
 import Contact from './Contact';
+import SingleCarPage from './SingleCarPage';
 
 export const UserContext = createContext();
 
@@ -39,6 +40,7 @@ function App() {
             <Route path='/signup' element={<Registration/>}/>
             <Route path='/login' element={<Login />}/>
             <Route path='/cars' element={<Cars/>}/>
+            <Route path='/cars/:carId' element={<SingleCarPage/>}/>
             <Route path='/about' element={<About/>}/>
             <Route path='/contact' element={<Contact/>}/>
             <Route path='/account-settings' element={<ProfileSettings/>}>

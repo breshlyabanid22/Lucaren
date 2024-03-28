@@ -5,6 +5,7 @@ import {
   faMagnifyingGlass,
   faAngleDown,
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const Cars = () => {
   const [carData, setCarData] = useState([]);
@@ -21,6 +22,7 @@ const Cars = () => {
       .get("/carlisting")
       .then((res) => {
         console.log(res.data);
+
         setCarData(res.data);
       })
       .catch((err) => console.error(err));
@@ -114,13 +116,18 @@ const Cars = () => {
                 >
                   <img
                     src={baseUrl + car.image_file}
+                    loading="lazy"
                     className="object-cover w-[250px] h-[270px] 2xl:w-[370px] 2xl:h-[390px] rounded-lg shadow-lg"
                   />
-                  <div className="absolute bottom-0 w-full p-2 text-sm">
+                  <div className="absolute bottom-0 w-full p-2 text-sm flex flex-row justify-between">
+                    <div>
                     <p>{car.make}</p>
                     <p>$ {car.daily_rate}/day</p>
+                    </div>
+                  <Link to={`/cars/${car.car_id}`} className=" text-center text-white bg-black py-2 px-6 rounded hover:border hover:text-yellow hover:border-yellow">Rent</Link>
                   </div>
                 </div>
+                
               ))}
         </div>
       </div>

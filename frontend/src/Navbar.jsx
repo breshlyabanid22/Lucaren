@@ -124,7 +124,7 @@ const Navbar = () => {
             <div className="flex flex-row items-center gap-x-3">
               <div>{userProfile.username}</div>
               <button
-                className="h-[32px] w-[32px] flex items-center justify-center
+                className="size-8 flex items-center justify-center
                         md:w-[48px] md:h-[48px]  border border-yellow p-1 rounded-full hover:p-0 cursor-pointer"
                 onClick={openModal}
               >

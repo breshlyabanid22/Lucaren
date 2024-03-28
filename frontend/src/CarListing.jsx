@@ -10,9 +10,8 @@ const CarListing = () => {
   const [toast, setToast] = useState("");
   const [isError, setIsError] = useState(false);
   const [carData, setCarData] = useState([]);
-  const [isEdit, setIsEdit] = useState(false);
   const [formData, setFormData] = useState({
-    id: "",
+    car_id: "",
     make: "",
     model: "",
     model_year: "",
@@ -158,6 +157,7 @@ const CarListing = () => {
                         <td className="w-16 h-16">
                           <img
                             src={baseUrl + car.image_file}
+                            loading="lazy"
                             alt=""
                             className="object-cover w-16 h-16"
                           />
@@ -200,7 +200,6 @@ const CarListing = () => {
                   {formData.image_file ? (
                     <img
                       src={URL.createObjectURL(formData.image_file)}
-                      loading="lazy"
                       className="object-cover h-[280px] w-[200px] 2xl:w-[230px] rounded-md hover:object-contain"
                     />
                   ) : (
