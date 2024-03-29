@@ -61,7 +61,7 @@ const CarListing = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [editId, formData]);
+  }, [editId]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -74,7 +74,7 @@ const CarListing = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     const formDataToSend = new FormData();
 
     Object.entries(formData).forEach(([key, value]) => {
@@ -107,6 +107,7 @@ const CarListing = () => {
             transmission: "",
             image_file: "",
           });
+          window.location.reload();
         })
         .catch((error) => {
           handleToast("Please upload an image");
@@ -144,6 +145,14 @@ const CarListing = () => {
         })
         .then((res) => {
           setEditId(-1);
+          setFormData({
+            make: "",
+            model: "",
+            model_year: "",
+            daily_rate: "",
+            transmission: "",
+            image_file: "",
+          });
         })
         .catch((error) => console.error(error));
     } catch (error) {

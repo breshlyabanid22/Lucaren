@@ -46,8 +46,8 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
 
 class CarListing(models.Model):
 	TRANSMISSION_CHOICES = [
-    ('automatic', 'Automatic'),
-    ('manual', 'Manual'),
+    ('Automatic', 'automatic'),
+    ('Manual', 'manual'),
 	]
 	car_id = models.AutoField(primary_key=True)
 	make = models.CharField(max_length=50)
