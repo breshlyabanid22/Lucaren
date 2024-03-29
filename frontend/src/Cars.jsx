@@ -29,29 +29,29 @@ const Cars = () => {
   };
 
   const handleSort = (filter) => {
-    if(order === 'ASC'){
+    if (order === "ASC") {
       const sorted = [...carData].sort((a, b) => {
-        if(typeof a[filter] === 'string' && typeof b[filter] === 'string'){
+        if (typeof a[filter] === "string" && typeof b[filter] === "string") {
           return a[filter].toLowerCase() > b[filter].toLowerCase() ? 1 : -1;
-        }else{
+        } else {
           return a[filter] - b[filter];
         }
-    });
+      });
       setCarData(sorted);
-      setOrder('DSC');
+      setOrder("DSC");
     }
-    if(order === 'DSC'){
+    if (order === "DSC") {
       const sorted = [...carData].sort((a, b) => {
-        if(typeof a[filter] === 'string' && typeof b[filter] === 'string'){
+        if (typeof a[filter] === "string" && typeof b[filter] === "string") {
           return a[filter].toLowerCase() < b[filter].toLowerCase() ? 1 : -1;
-        }else{
+        } else {
           return b[filter] - a[filter];
         }
-    });
+      });
       setCarData(sorted);
-      setOrder('ASC');
+      setOrder("ASC");
     }
-  }
+  };
 
   return (
     <>
@@ -74,27 +74,31 @@ const Cars = () => {
               Explore a variety of our luxury cars available for rent.
             </p>
             <div className="flex gap-8 2xl:gap-10">
-              <button 
-              onClick={() => handleSort('daily_rate')}
-              className="flex items-center gap-2 border px-4 py-1 rounded-lg hover:text-yellow hover:border-yellow">
+              <button
+                onClick={() => handleSort("daily_rate")}
+                className="flex items-center gap-2 border px-4 py-1 rounded-lg hover:text-yellow hover:border-yellow"
+              >
                 Price
                 <FontAwesomeIcon icon={faAngleDown} />
               </button>
-              <button 
-              onClick={() => handleSort('model_year')}
-              className="flex items-center gap-2 border px-4 py-1 rounded-lg hover:text-yellow hover:border-yellow">
+              <button
+                onClick={() => handleSort("model_year")}
+                className="flex items-center gap-2 border px-4 py-1 rounded-lg hover:text-yellow hover:border-yellow"
+              >
                 Year
                 <FontAwesomeIcon icon={faAngleDown} />
               </button>
-              <button 
-              onClick={() => handleSort('make')}
-              className="flex items-center gap-2 border px-4 py-1 rounded-lg hover:text-yellow hover:border-yellow">
+              <button
+                onClick={() => handleSort("make")}
+                className="flex items-center gap-2 border px-4 py-1 rounded-lg hover:text-yellow hover:border-yellow"
+              >
                 Brand
                 <FontAwesomeIcon icon={faAngleDown} />
               </button>
-              <button 
-              // onClick={() => handleSort('daily_rate')}
-              className="flex items-center gap-2 border px-4 py-1 rounded-lg hover:text-yellow hover:border-yellow">
+              <button
+                // onClick={() => handleSort('daily_rate')}
+                className="flex items-center gap-2 border px-4 py-1 rounded-lg hover:text-yellow hover:border-yellow"
+              >
                 Rating
                 <FontAwesomeIcon icon={faAngleDown} />
               </button>
@@ -110,7 +114,8 @@ const Cars = () => {
                   : car.make.toLowerCase().includes(search.toLowerCase());
               })
               .map((car, index) => (
-                <div
+                <Link
+                  to={`/cars/${car.car_id}`}
                   key={index}
                   className="relative w-[250px] h-[270px] 2xl:w-[370px] 2xl:h-[390px] hover:scale-105 duration-75"
                 >
@@ -121,13 +126,11 @@ const Cars = () => {
                   />
                   <div className="absolute bottom-0 w-full p-2 text-sm flex flex-row justify-between">
                     <div>
-                    <p>{car.make}</p>
-                    <p>$ {car.daily_rate}/day</p>
+                      <p>{car.make}</p>
+                      <p>$ {car.daily_rate}/day</p>
                     </div>
-                  <Link to={`/cars/${car.car_id}`} className=" text-center text-white bg-black py-2 px-6 rounded hover:border hover:text-yellow hover:border-yellow">Rent</Link>
                   </div>
-                </div>
-                
+                </Link>
               ))}
         </div>
       </div>

@@ -55,4 +55,4 @@ class CarListing(models.Model):
 	model_year = models.PositiveIntegerField()
 	daily_rate = models.IntegerField()
 	transmission = models.CharField(max_length=20, choices=TRANSMISSION_CHOICES)
-	image_file = models.ImageField(blank=False, upload_to='car_images/')
+	image_file = models.ImageField(blank=True, upload_to='car_images/')

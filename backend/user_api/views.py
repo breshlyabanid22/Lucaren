@@ -9,7 +9,7 @@ from .validations import custom_validation
 from django.contrib.auth import update_session_auth_hash
 from rest_framework.generics import UpdateAPIView
 from rest_framework import status
-# validate_email, validate_password
+from django.http import Http404
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
 from .models import CarListing
@@ -99,14 +99,23 @@ class CarListingView(APIView):
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UpdateCarListingView(APIView):
-	def put(self, request, pk):
+	def get_object(self, pk):
 		try:
-			car_listings = CarListing.objects.get(pk=pk)
+			return CarListing.objects.get(pk=pk)
 		except CarListing.DoesNotExist:
-			return Response(status=status.HTTP_404_NOT_FOUND)
-		serializer = CarListingSerializer(car_listings, data=request.data)
+			raise Http404
+		
+	def put(self, request, pk):
+		car_listing = self.get_object(pk)
+		serializer = CarListingSerializer(car_listing, data=request.data)
 		if serializer.is_valid():
 			serializer.save()
 			return Response (serializer.data)
 		return Response (serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+	
+	def delete(self, request, pk):
+		car_listing = self.get_object(pk)
+		car_listing.delete()
+		return Response(status=status.HTTP_204_NO_CONTENT)
+
 

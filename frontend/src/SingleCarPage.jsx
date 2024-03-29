@@ -15,7 +15,6 @@ const SingleCarPage = () => {
     await client
       .get("/carlisting")
       .then((res) => {
-        console.log("CAr Data: ", res.data);
         setCarData(res.data);
       })
       .catch((err) => console.error(err));
