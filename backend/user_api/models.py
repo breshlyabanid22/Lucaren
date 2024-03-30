@@ -45,14 +45,11 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
 		return self.username
 
 class CarListing(models.Model):
-	TRANSMISSION_CHOICES = [
-    ('Automatic', 'automatic'),
-    ('Manual', 'manual'),
-	]
+
 	car_id = models.AutoField(primary_key=True)
 	make = models.CharField(max_length=50)
 	model = models.CharField(max_length=50)
 	model_year = models.PositiveIntegerField()
 	daily_rate = models.IntegerField()
-	transmission = models.CharField(max_length=20, choices=TRANSMISSION_CHOICES)
+	transmission = models.CharField(max_length=20)
 	image_file = models.ImageField(blank=True, upload_to='car_images/')

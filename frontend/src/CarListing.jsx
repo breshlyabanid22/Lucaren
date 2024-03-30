@@ -40,9 +40,9 @@ const CarListing = () => {
             model: carDataResponse.model,
             model_year: carDataResponse.model_year,
             daily_rate: carDataResponse.daily_rate,
-            transmission: carDataResponse.transmission,
+            transmission: "",
           });
-          console.log("REsponse: ", carDataResponse);
+          console.log("REsponse: ", carDataResponse.transmission);
         }
         setCarData(res.data);
       })
@@ -74,7 +74,7 @@ const CarListing = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const formDataToSend = new FormData();
 
     Object.entries(formData).forEach(([key, value]) => {
@@ -107,7 +107,7 @@ const CarListing = () => {
             transmission: "",
             image_file: "",
           });
-          window.location.reload();
+          location.reload();
         })
         .catch((error) => {
           handleToast("Please upload an image");
@@ -154,14 +154,29 @@ const CarListing = () => {
             image_file: "",
           });
         })
-        .catch((error) => console.error(error));
+        .catch((err) => {
+          console.error("Error:", err);
+
+          if(err.response.data.transmission){
+            alert("Transmission field is required. Please try again!");
+          }
+        });
     } catch (error) {
-      console.error(error);
+      console.error("Error:", error);
+      
     }
   };
 
-  function openModal(id) {
+  function openModal() {
     setIsOpen(true);
+      setFormData({
+        make: "",
+        model: "",
+        model_year: "",
+        daily_rate: "",
+        transmission: "",
+        image_file: "",
+      });
   }
   function handleToast(toast) {
     setToast(toast);
@@ -170,22 +185,24 @@ const CarListing = () => {
   function handleEdit(id) {
     setEditId(id);
   }
-  function handleDelete(id){
+  function handleDelete(id) {
     const csrfToken = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("csrftoken="))
-        .split("=")[1];
+      .split("; ")
+      .find((row) => row.startsWith("csrftoken="))
+      .split("=")[1];
 
-    client.delete(`/carlisting/${id}/`, {
-      headers: {
-        "X-CSRFToken": csrfToken,
-      },
-    })
-    .then((res) => {
-      setEditId(-1);
-      window.location.reload();
-      console.log(res);
-    }).catch(err => console.error(err))
+    client
+      .delete(`/carlisting/${id}/`, {
+        headers: {
+          "X-CSRFToken": csrfToken,
+        },
+      })
+      .then((res) => {
+        setEditId(-1);
+        window.location.reload();
+        console.log(res);
+      })
+      .catch((err) => console.error(err));
   }
   return (
     <>
@@ -230,7 +247,10 @@ const CarListing = () => {
                 <tbody>
                   {carData.map((car, index) =>
                     car.car_id === editId ? (
-                      <tr key={index} className="odd:bg-black even:bg-[#212121]">
+                      <tr
+                        key={index}
+                        className="odd:bg-black even:bg-[#212121]"
+                      >
                         <td>
                           <label
                             htmlFor="image_file"
@@ -287,7 +307,32 @@ const CarListing = () => {
                             onChange={handleChange}
                           />
                         </td>
-                        <td className="px-2 py-2">{car.transmission}</td>
+                        <td className="px-2 py-2 flex flex-col gap-2">
+                          <label htmlFor="automatic" className="">
+                            <input
+                              type="radio"
+                              id="automatic"
+                              name="transmission"
+                              value="Automatic"
+                              onChange={handleChange}
+                              className="mr-2"
+                              required
+                            />
+                              Automatic
+                          </label>
+                          <label htmlFor="manual"> 
+                            <input
+                              type="radio"
+                              id="manual"
+                              name="transmission"
+                              value="Manual"
+                              onChange={handleChange}
+                              className="mr-2"
+                              required
+                            />
+                            Manual
+                          </label>
+                        </td>
                         <td className="px-2 py-2">
                           <button
                             onClick={handleUpdate}
@@ -295,7 +340,12 @@ const CarListing = () => {
                           >
                             Update
                           </button>
-                          <button onClick={() => handleEdit(-1)} className="ml-6 hover:text-red-600 text-xl"><FontAwesomeIcon icon={faRectangleXmark} /></button>
+                          <button
+                            onClick={() => handleEdit(-1)}
+                            className="ml-6 hover:text-red-600 text-xl"
+                          >
+                            <FontAwesomeIcon icon={faRectangleXmark} />
+                          </button>
                         </td>
                       </tr>
                     ) : (
@@ -323,9 +373,10 @@ const CarListing = () => {
                           >
                             <FontAwesomeIcon icon={faPenToSquare} />
                           </button>
-                          <button 
+                          <button
                             onClick={() => handleDelete(car.car_id)}
-                            className="hover:text-red-600">
+                            className="hover:text-red-600"
+                          >
                             <FontAwesomeIcon icon={faTrash} />
                           </button>
                         </td>
