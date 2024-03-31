@@ -117,7 +117,7 @@ const Cars = () => {
                 <Link
                   to={`/cars/${car.car_id}`}
                   key={index}
-                  className="relative w-[250px] h-[270px] 2xl:w-[370px] 2xl:h-[390px] hover:scale-105 duration-75"
+                  className="relative w-[250px] h-[270px] 2xl:w-[370px] 2xl:h-[390px] hover:scale-105 duration-75 shadow-lg"
                 >
                   <img
                     src={baseUrl + car.image_file}

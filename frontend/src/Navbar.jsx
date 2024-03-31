@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import Logo from "/lucaren-logo.svg";
 import { UserContext } from "./App";
 import { client } from "./Url";
@@ -14,6 +14,16 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const ref = useRef(null);
+
+  const location = useLocation();
+  const isActive = (itemHref) => location.pathname === itemHref;
+
+  const navigation = [
+    { name: "Home", href: "/" },
+    { name: "Cars", href: "/cars" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
+  ];
   const [userProfile, setUserProfile] = useState({
     username: "",
     user_profile: "",
@@ -85,38 +95,20 @@ const Navbar = () => {
         </div>
         <div className="hidden md:block">
           <ul className="grid content-start grid-cols-4 gap-8 p-0 m-0">
-            <li className="text-center">
-              <Link
-                to="/"
-                className="text-center no-underline hover:text-amber-300 text-slate-100"
-              >
-                Home
-              </Link>
-            </li>
-            <li className="text-center">
-              <Link
-                to="/cars"
-                className="no-underline text-slate-100 hover:text-amber-300"
-              >
-                Cars
-              </Link>
-            </li>
-            <li className="text-center">
-              <Link
-                to="/about"
-                className="no-underline text-slate-100 hover:text-amber-300"
-              >
-                About
-              </Link>
-            </li>
-            <li className="text-center">
-              <Link
-                to="/contact"
-                className="no-underline text-slate-100 hover:text-amber-300"
-              >
-                Contact
-              </Link>
-            </li>
+            {navigation.map((item, index) => (
+              <li key={index} className="text-center">
+                <Link
+                  to={item.href}
+                  className={`no-underline py-5 ${
+                    isActive(item.href)
+                      ? "text-yellow border-b-2 border-yellow"
+                      : "text-slate-100 hover:text-yellow"
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
         {currentUser ? (
