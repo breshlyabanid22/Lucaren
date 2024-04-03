@@ -16,6 +16,7 @@ const CarListing = () => {
   const [isError, setIsError] = useState(false);
   const [carData, setCarData] = useState([]);
   const [editId, setEditId] = useState(-1);
+  const [isSaved, setIsSaved] = useState(false);
   const [formData, setFormData] = useState({
     car_id: "",
     make: "",
@@ -26,6 +27,30 @@ const CarListing = () => {
     image_file: "",
   });
   const baseUrl = "http://localhost:8000";
+
+  useEffect(() => {
+    fetchCarData();
+    const handleClickOutside = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [editId, isSaved]);
+
+  useEffect(() => {
+    if (toast) {
+      const timeout = setTimeout(() => {
+        setToast("");
+      }, 1000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [toast]);
 
   const fetchCarData = async () => {
     //fetch the car data from the backend
@@ -48,20 +73,6 @@ const CarListing = () => {
       })
       .catch((error) => console.error(error));
   };
-
-  useEffect(() => {
-    fetchCarData();
-    const handleClickOutside = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [editId]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -107,7 +118,7 @@ const CarListing = () => {
             transmission: "",
             image_file: "",
           });
-          location.reload();
+          isSaved ? setIsSaved(false) : setIsSaved(true);
         })
         .catch((error) => {
           handleToast("Please upload an image");
@@ -157,26 +168,25 @@ const CarListing = () => {
         .catch((err) => {
           console.error("Error:", err);
 
-          if(err.response.data.transmission){
+          if (err.response.data.transmission) {
             alert("Transmission field is required. Please try again!");
           }
         });
     } catch (error) {
       console.error("Error:", error);
-      
     }
   };
 
   function openModal() {
     setIsOpen(true);
-      setFormData({
-        make: "",
-        model: "",
-        model_year: "",
-        daily_rate: "",
-        transmission: "",
-        image_file: "",
-      });
+    setFormData({
+      make: "",
+      model: "",
+      model_year: "",
+      daily_rate: "",
+      transmission: "",
+      image_file: "",
+    });
   }
   function handleToast(toast) {
     setToast(toast);
@@ -199,7 +209,7 @@ const CarListing = () => {
       })
       .then((res) => {
         setEditId(-1);
-        window.location.reload();
+        isSaved ? setIsSaved(false) : setIsSaved(true);
         console.log(res);
       })
       .catch((err) => console.error(err));
@@ -216,8 +226,8 @@ const CarListing = () => {
             >
               + Add Listing
             </button>
-            <div className="relative flex p-3 mt-3 text-sm border flex-col">
-              <div className="text-lg mb-3">My Listing</div>
+            <div className="relative flex flex-col p-3 mt-3 text-sm border">
+              <div className="mb-3 text-lg">My Listing</div>
               <table className="w-full overflow-hidden text-left rtl:text-right">
                 <thead className="border-b-2 border-yellow">
                   <tr>
@@ -276,7 +286,7 @@ const CarListing = () => {
                             type="text"
                             name="make"
                             defaultValue={car.make}
-                            className=" w-24 p-2 border border-yellow bg-inherit"
+                            className="w-24 p-2 border border-yellow bg-inherit"
                             onChange={handleChange}
                           />
                         </td>
@@ -285,7 +295,7 @@ const CarListing = () => {
                             type="text"
                             name="model"
                             defaultValue={car.model}
-                            className=" w-24 p-2 border border-yellow bg-inherit"
+                            className="w-24 p-2 border border-yellow bg-inherit"
                             onChange={handleChange}
                           />
                         </td>
@@ -294,7 +304,7 @@ const CarListing = () => {
                             type="number"
                             name="model_year"
                             defaultValue={car.model_year}
-                            className=" w-20 p-2 border border-yellow bg-inherit"
+                            className="w-20 p-2 border border-yellow bg-inherit"
                             onChange={handleChange}
                           />
                         </td>
@@ -307,7 +317,7 @@ const CarListing = () => {
                             onChange={handleChange}
                           />
                         </td>
-                        <td className="px-2 py-2 flex flex-col gap-2">
+                        <td className="flex flex-col gap-2 px-2 py-2">
                           <label htmlFor="automatic" className="">
                             <input
                               type="radio"
@@ -318,9 +328,9 @@ const CarListing = () => {
                               className="mr-2"
                               required
                             />
-                              Automatic
+                            Automatic
                           </label>
-                          <label htmlFor="manual"> 
+                          <label htmlFor="manual">
                             <input
                               type="radio"
                               id="manual"
@@ -336,13 +346,13 @@ const CarListing = () => {
                         <td className="px-2 py-2">
                           <button
                             onClick={handleUpdate}
-                            className=" text-black rounded shadow-md hover:scale-110 bg-yellow py-1 px-2"
+                            className="px-2 py-1 text-black rounded shadow-md hover:scale-110 bg-yellow"
                           >
                             Update
                           </button>
                           <button
                             onClick={() => handleEdit(-1)}
-                            className="ml-6 hover:text-red-600 text-xl"
+                            className="ml-6 text-xl hover:text-red-600"
                           >
                             <FontAwesomeIcon icon={faRectangleXmark} />
                           </button>
