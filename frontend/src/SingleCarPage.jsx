@@ -35,7 +35,7 @@ const SingleCarPage = () => {
               <p>$ {singleCarData.daily_rate}</p>
               <p>Transmission: {singleCarData.transmission}</p>
               <p>Rating: </p>
-              <button className="py-2 px-3 w-full rounded border border-yellow hover:bg-yellow">Rent</button>
+              <Link to="/rental-booking" className="text-center py-2 px-3 w-full rounded border border-yellow hover:bg-yellow">Rent</Link>
               <Link to="/cars" className="py-2 px-3 text-center rounded w-full bg-white text-black">Go back</Link>
             </div>
           </div>

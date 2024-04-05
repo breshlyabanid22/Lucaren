@@ -13,6 +13,7 @@ import CarListing from './CarListing';
 import ManageProfile from './ManageProfile';
 import Contact from './Contact';
 import SingleCarPage from './SingleCarPage';
+import RentalBooking from './RentalBooking';
 
 export const UserContext = createContext();
 
@@ -41,6 +42,7 @@ function App() {
             <Route path='/login' element={<Login />}/>
             <Route path='/cars' element={<Cars/>}/>
             <Route path='/cars/:carId' element={<SingleCarPage/>}/>
+            <Route path='/rental-booking' element={<RentalBooking/>}/>
             <Route path='/about' element={<About/>}/>
             <Route path='/contact' element={<Contact/>}/>
             <Route path='/account-settings' element={<ProfileSettings/>}>

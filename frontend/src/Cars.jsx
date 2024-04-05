@@ -121,7 +121,6 @@ const Cars = () => {
                 >
                   <img
                     src={baseUrl + car.image_file}
-                    loading="lazy"
                     className="object-cover w-[250px] h-[270px] 2xl:w-[370px] 2xl:h-[390px] rounded-lg shadow-lg"
                   />
                   <div className="absolute bottom-0 w-full p-2 text-sm flex flex-row justify-between">
