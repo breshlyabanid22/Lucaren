@@ -13,7 +13,11 @@ from django.http import Http404
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
 from .models import CarListing
-from . serializers import CarListingSerializer
+from . serializers import CarListingSerializer, RentalBookingSerializer
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.permissions import AllowAny
+
 class UserRegister(APIView):
 	permission_classes = (permissions.AllowAny,)
 	def post(self, request):
@@ -86,11 +90,14 @@ class UserProfileUpdate(UpdateAPIView):
 
 class CarListingView(APIView):
 
+	@method_decorator(csrf_exempt)
 	def get(self, request):
 		car_listings = CarListing.objects.all()
 		serializer = CarListingSerializer(car_listings, many=True)
 		return Response (serializer.data)
 	
+	permission_classes = [AllowAny]
+
 	def post(self, request):
 		serializer = CarListingSerializer(data=request.data)
 		if serializer.is_valid():
@@ -118,4 +125,15 @@ class UpdateCarListingView(APIView):
 		car_listing.delete()
 		return Response(status=status.HTTP_204_NO_CONTENT)
 
+class RentalBookingView(APIView):
+	
+	def post(self, request, fk):
 
+		mutable_data = request.data.copy()
+		mutable_data['car'] = fk
+		serializer = RentalBookingSerializer(data=mutable_data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response (serializer.data, status=status.HTTP_200_OK)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		

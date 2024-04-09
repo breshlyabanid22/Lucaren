@@ -44,7 +44,7 @@ const Login = () => {
   if (currentUser) {
     return (
       <>
-        <Navigate to="/explore" />
+        <Navigate to="/" />
       </>
     );
   }
@@ -53,10 +53,10 @@ const Login = () => {
   }
   return (
     <>
-      <div className="flex items-center justify-center h-screen w-full">
-        <div className="border-2 border-yellow rounded-xl bg-black w-96">
+      <div className="flex items-center justify-center w-full h-screen">
+        <div className="bg-black border-2 border-yellow rounded-xl w-96">
           <div className="flex flex-col p-8 space-y-6">
-            <div className="text-xl leading-tight tracking-tight text-white pb-4">
+            <div className="pb-4 text-xl leading-tight tracking-tight text-white">
               Sign In
             </div>
             <span
@@ -72,7 +72,7 @@ const Login = () => {
 
             <form className="grid gap-4" onSubmit={(e) => submitLogin(e)}>
               {/* Email Field */}
-              <div className="w-full lg:rounded rounded-sm bg-black-2 flex flex-row relative">
+              <div className="relative flex flex-row w-full rounded-sm lg:rounded bg-black-2">
                 <FontAwesomeIcon
                   icon={faEnvelope}
                   className="absolute top-[14px] left-[12px] text-custom-gray"
@@ -87,7 +87,7 @@ const Login = () => {
                 />
               </div>
               {/* Password Field */}
-              <div className="w-full lg:rounded rounded-sm bg-black-2 flex flex-row relative">
+              <div className="relative flex flex-row w-full rounded-sm lg:rounded bg-black-2">
                 <FontAwesomeIcon
                   icon={faLock}
                   className="absolute top-[14px] left-[12px] text-custom-gray"
@@ -103,7 +103,7 @@ const Login = () => {
               </div>
               <button
                 type="submit"
-                className="w-full py-2 text-white mt-4 border-yellow border rounded hover:bg-yellow hover:text-black"
+                className="w-full py-2 mt-4 text-white border rounded border-yellow hover:bg-yellow hover:text-black"
               >
                 Sign In
               </button>

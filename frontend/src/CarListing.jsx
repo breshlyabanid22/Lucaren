@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext} from "react";
 import { client } from "./Url";
-
+import { UserContext } from "./App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUpload,
@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const CarListing = () => {
+  const [currentUser, setCurrentUser] = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
   const [toast, setToast] = useState("");
@@ -25,12 +26,16 @@ const CarListing = () => {
     daily_rate: "",
     transmission: "",
     image_file: "",
+    owner: "",
   });
   const baseUrl = "http://localhost:8000";
-
+  console.log(formData);
   useEffect(() => {
-    fetchCarData();
-    const handleClickOutside = (e) => {
+
+    if(currentUser){
+      fetchCarData();
+    }
+      const handleClickOutside = (e) => {
       if (ref.current && !ref.current.contains(e.target)) {
         setIsOpen(false);
       }
@@ -43,6 +48,8 @@ const CarListing = () => {
   }, [editId, isSaved]);
 
   useEffect(() => {
+    fetchUserData();
+
     if (toast) {
       const timeout = setTimeout(() => {
         setToast("");
@@ -51,6 +58,17 @@ const CarListing = () => {
       return () => clearTimeout(timeout);
     }
   }, [toast]);
+
+  const fetchUserData = async () => {
+    await client
+      .get("/user")
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   const fetchCarData = async () => {
     //fetch the car data from the backend
@@ -79,7 +97,7 @@ const CarListing = () => {
 
     if (name === "image_file" && files) {
       setFormData((prevFormData) => ({ ...prevFormData, [name]: files[0] }));
-    } else {
+    }else{
       setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
     }
   };
@@ -92,6 +110,7 @@ const CarListing = () => {
       if (value !== "" || value !== null) {
         formDataToSend.append(key, value);
       }
+
     });
     try {
       const csrfToken = document.cookie

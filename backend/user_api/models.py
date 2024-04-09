@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-
+from django.core.exceptions import ValidationError
 class AppUserManager(BaseUserManager):
 	def create_user(self, email, password=None):
 		if not email:
@@ -53,3 +53,16 @@ class CarListing(models.Model):
 	daily_rate = models.IntegerField()
 	transmission = models.CharField(max_length=20)
 	image_file = models.ImageField(blank=True, upload_to='car_images/')
+
+class RentalBooking(models.Model):
+
+	car = models.ForeignKey(CarListing, on_delete=models.CASCADE)
+	pick_address = models.CharField(max_length=50)
+	pick_contact = models.CharField(max_length=11)
+	pick_date = models.DateField()
+	pick_time = models.TimeField()
+	drop_address = models.CharField(max_length=50)
+	drop_contact = models.CharField(max_length=11)
+	drop_date = models.DateField()
+	drop_time = models.TimeField()
+	total_price = models.IntegerField(default=0)
