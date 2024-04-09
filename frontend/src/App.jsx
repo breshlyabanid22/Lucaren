@@ -14,6 +14,7 @@ import ManageProfile from './ManageProfile';
 import Contact from './Contact';
 import SingleCarPage from './SingleCarPage';
 import RentalBooking from './RentalBooking';
+import MyBooking from './MyBooking';
 
 export const UserContext = createContext();
 
@@ -23,10 +24,10 @@ function App() {
 
   useEffect(() => {
     client.get("/user")
-    .then(function(res) {
+    .then((res) => {
       setCurrentUser(true);
     })
-    .catch(function(error) {
+    .catch((error) => {
       setCurrentUser(false);
     });
   }, []);
@@ -48,6 +49,7 @@ function App() {
             <Route path='/account-settings' element={<ProfileSettings/>}>
               <Route index element={<ManageProfile/>}/>
               <Route path='/account-settings/car-listing' element={<CarListing/>}/>
+              <Route path='/account-settings/my-booking' element={<MyBooking/>} />
             </Route>
           </Route>
         </Routes> 

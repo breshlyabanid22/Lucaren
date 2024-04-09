@@ -12,8 +12,9 @@ from rest_framework import status
 from django.http import Http404
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
-from .models import CarListing
+from .models import CarListing, RentalBooking
 from . serializers import CarListingSerializer, RentalBookingSerializer
+from rest_framework.generics import ListAPIView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.permissions import AllowAny
@@ -136,4 +137,8 @@ class RentalBookingView(APIView):
 			serializer.save()
 			return Response (serializer.data, status=status.HTTP_200_OK)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-		
+	
+class RentalBookingDetails(ListAPIView):
+
+	serializer_class = RentalBookingSerializer
+	queryset = RentalBooking.objects.all()

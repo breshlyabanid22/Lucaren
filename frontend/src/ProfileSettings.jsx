@@ -8,6 +8,8 @@ const ProfileSettings = () => {
   const nav = [
     { name: "Manage Profile", href: "/account-settings" },
     { name: "Car Listing", href: "/account-settings/car-listing" },
+    { name: "Booking Details", href: "/account-settings/my-booking" }
+
   ];
   return (
     <>

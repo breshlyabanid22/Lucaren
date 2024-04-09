@@ -51,6 +51,7 @@ class CarListing(models.Model):
 	model = models.CharField(max_length=50)
 	model_year = models.PositiveIntegerField()
 	daily_rate = models.IntegerField()
+	rating = models.IntegerField(default=0)
 	transmission = models.CharField(max_length=20)
 	image_file = models.ImageField(blank=True, upload_to='car_images/')
 
