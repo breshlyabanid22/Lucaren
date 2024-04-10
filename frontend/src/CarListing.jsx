@@ -241,7 +241,7 @@ const CarListing = () => {
             <div className="mb-4 text-lg 2xl:text-xl">Car Listing</div>
             <button
               onClick={openModal}
-              className="px-4 py-2 text-sm border rounded-sm border-yellow text-yellow hover:text-white hover:border-white"
+              className="px-2 py-2 text-sm border rounded-sm border-yellow text-yellow hover:text-white hover:border-white"
             >
               + Add Listing
             </button>
@@ -434,7 +434,6 @@ const CarListing = () => {
                 onSubmit={handleSubmit}
                 className="flex flex-row justify-center mt-8 mb-6 gap-x-8"
               >
-                <input type="hidden" name="pk" value={formData.id} />
                 <label
                   htmlFor="image_file"
                   className="flex items-center justify-center bg-black-2 h-[280px] w-[200px] 2xl:w-[200px] rounded-md text-yellow font-thin"

@@ -18,6 +18,7 @@ from rest_framework.generics import ListAPIView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.permissions import AllowAny
+from rest_framework.exceptions import NotFound
 
 class UserRegister(APIView):
 	permission_classes = (permissions.AllowAny,)
@@ -137,6 +138,15 @@ class RentalBookingView(APIView):
 			serializer.save()
 			return Response (serializer.data, status=status.HTTP_200_OK)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+	
+	def delete(self, request, fk):
+		
+		try:
+			rental_booking = RentalBooking.objects.get(pk=fk)
+			rental_booking.delete()
+			return Response (status=status.HTTP_204_NO_CONTENT)
+		except RentalBooking.DoesNotExist:
+			raise NotFound(detail="Rental Booking not found")
 	
 class RentalBookingDetails(ListAPIView):
 

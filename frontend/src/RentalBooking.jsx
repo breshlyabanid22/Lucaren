@@ -39,7 +39,7 @@ const RentalBooking = () => {
         if(isSaved){
           location.reload();
         }
-      }, 3000);
+      }, 2000);
       return () => clearTimeout(timeout);
     }
   }, [toast]);
@@ -160,13 +160,16 @@ const RentalBooking = () => {
         <h1 className="text-lg">Car Details</h1>
         {singleCarData && (
           <div className="flex gap-x-3 justify-between text-sm ml-8 mt-6 border-b-2 border-yellow mb-6">
-            <div className="flex flex-col gap-y-4 mb-6">
+            <div className="flex flex-col gap-y-3 mb-6">
               <span className="text-gray text-gray-500">
                 Car id:{" "}
                 <p className="text-yellow inline">{singleCarData.car_id}</p>
               </span>
               <span className="text-gray text-gray-500">
                 Brand: <p className="inline text-white">{singleCarData.make}</p>
+              </span>
+              <span className="text-gray text-gray-500">
+                Model: <p className="inline text-white">{singleCarData.model}</p>
               </span>
               <span className="text-gray text-gray-500">
                 Price:{" "}
