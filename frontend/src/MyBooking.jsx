@@ -7,7 +7,11 @@ const MyBooking = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [returnId, setReturnId] = useState(0);
-
+  const [formData, setFormData] = useState({
+    rating: "",
+    comment: "",
+    date_posted: "",
+  })
   const options = [
     { label: "Select a rating", value: "" },
     { label: "1", value: 1 },
@@ -26,7 +30,6 @@ const MyBooking = () => {
     await client
       .get("/rental-booking-details")
       .then((res) => {
-        console.log(res.data[0]);
         setBookingDetails(res.data);
       })
       .catch((error) => {
@@ -44,6 +47,7 @@ const MyBooking = () => {
         console.error(error);
       });
   };
+
   const handleDelete = (id) => {
     const csrfToken = document.cookie
       .split("; ")
@@ -72,9 +76,38 @@ const MyBooking = () => {
     setReturnId(id);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    const formDataToSend = new FormData();
+
+    formDataToSend.append('rating', formData.rating);
+    formDataToSend.append('comment', formData.comment);
+    formDataToSend.append('date_posted', formData.date_posted);
+
+    const csrfToken = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("csrftoken="))
+        .split("=")[1];
+
+    client.post('/feedback', formDataToSend, {
+      headers:{
+        "Content-Type": "multipart/form-data",
+        "X-CSRFToken": csrfToken,
+      },
+    }).then((res) => {
+      console.log(res.data);
+      closeModal();
+    }).catch((error) => {
+      console.error(error);
+    })
   }
+
+  const handleChange = (e) => {
+    const {name, value} = e.target
+    setFormData((prevFormData) => ({...prevFormData, [name] : value}));
+  }
+
   return (
     <>
       <div className="flex justify-end pb-10">
@@ -183,7 +216,7 @@ const MyBooking = () => {
         </div>
         {isOpenModal && (
           <div className="flex absolute top-0 w-screen h-screen z-100 bg-opacity-25 bg-slate-600 justify-center items-center">
-            <span className="relative flex flex-col gap-y-4 justify-between px-4 py-4 w-[300px] bg-black rounded">
+            <span className="relative flex flex-col justify-between px-4 py-4 w-[300px] 2xl:w-[350px] bg-black rounded">
               <form onSubmit={handleSubmit} className=" text-white">
                 <h1>Return Details</h1>
                 <span className="text-xs text-gray-500">
@@ -195,6 +228,7 @@ const MyBooking = () => {
                 <select
                   name="rating"
                   id="rating"
+                  onChange={handleChange}
                   className="text-white text-xs rounded px-1 bg-inherit border border-yellow"
                 >
                   {options.map((option) => (
@@ -206,9 +240,13 @@ const MyBooking = () => {
                 <h1 className="text-white my-2 text-xs">
                   Please leave a feedback:
                 </h1>
-                <textarea className="text-white text-xs p-2 bg-black-2 w-full pb-12 flex" />
+                <textarea 
+                  id="comment"
+                  name="comment"
+                  onChange={handleChange}
+                  className="text-white text-xs p-2 bg-black-2 w-full pb-12 flex" />
                 <div className="text-white flex-row-reverse flex gap-x-2 mt-4">
-                  <button className="bg-yellow text-black text-xs rounded py-1 px-2">
+                  <button type="submit" className="bg-yellow text-black text-xs rounded py-1 px-2">
                     Submit
                   </button>
                   <button

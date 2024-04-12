@@ -12,5 +12,6 @@ urlpatterns = [
     path('carlisting/<int:pk>/', views.UpdateCarListingView.as_view(), name='carlisting_update'),
     path('rental-booking/<int:fk>/', views.RentalBookingView.as_view(), name='rental-booking'),
     path('rental-booking-details', views.RentalBookingDetails.as_view(), name='rental-booking-details'),
+    path('feedback', views.FeedbackView.as_view(), name='feedback'),
 
 ]

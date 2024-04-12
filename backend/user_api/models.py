@@ -67,3 +67,9 @@ class RentalBooking(models.Model):
 	drop_date = models.DateField()
 	drop_time = models.TimeField()
 	total_price = models.IntegerField(default=0)
+
+class Feedback(models.Model):
+
+	rating = models.IntegerField()
+	comment = models.CharField(max_length=100)
+	date_posted = models.DateTimeField(auto_now_add=True, null=True)

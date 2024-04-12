@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
 from django.core.exceptions import ValidationError
-from . models import CarListing, RentalBooking
+from . models import CarListing, RentalBooking, Feedback
 UserModel = get_user_model()
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -62,3 +62,7 @@ class RentalBookingSerializer(serializers.ModelSerializer):
 			raise ValidationError("Drop off date must be after pick up date.")
 		return data
 		
+class FeedbackSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Feedback
+		fields = '__all__'

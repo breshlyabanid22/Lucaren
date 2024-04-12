@@ -29,7 +29,6 @@ const CarListing = () => {
     owner: "",
   });
   const baseUrl = "http://localhost:8000";
-  console.log(formData);
   useEffect(() => {
 
     if(currentUser){
@@ -63,7 +62,6 @@ const CarListing = () => {
     await client
       .get("/user")
       .then((res) => {
-        console.log(res.data);
       })
       .catch((error) => {
         console.error(error);
@@ -85,7 +83,6 @@ const CarListing = () => {
             daily_rate: carDataResponse.daily_rate,
             transmission: "",
           });
-          console.log("REsponse: ", carDataResponse.transmission);
         }
         setCarData(res.data);
       })
@@ -126,7 +123,6 @@ const CarListing = () => {
           },
         })
         .then((res) => {
-          console.log(res.data);
           handleToast("Successfully added");
           setIsError(false);
           setFormData({
@@ -229,7 +225,6 @@ const CarListing = () => {
       .then((res) => {
         setEditId(-1);
         isSaved ? setIsSaved(false) : setIsSaved(true);
-        console.log(res);
       })
       .catch((err) => console.error(err));
   }
