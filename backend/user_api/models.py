@@ -51,7 +51,6 @@ class CarListing(models.Model):
 	model = models.CharField(max_length=50)
 	model_year = models.PositiveIntegerField()
 	daily_rate = models.IntegerField()
-	rating = models.IntegerField(default=0)
 	transmission = models.CharField(max_length=20)
 	image_file = models.ImageField(blank=True, upload_to='car_images/')
 
@@ -73,3 +72,6 @@ class Feedback(models.Model):
 	rating = models.IntegerField()
 	comment = models.CharField(max_length=100)
 	date_posted = models.DateTimeField(auto_now_add=True, null=True)
+	car_id = models.IntegerField(null=True)
+	username = models.CharField(max_length=100, blank=True)
+	user_profile = models.CharField(max_length=100, blank=True)
