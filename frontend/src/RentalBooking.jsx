@@ -5,11 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 const RentalBooking = () => {
   const [carData, setCarData] = useState([]);
+  const [currentUser, setCurrentUser] = useState("");
   const { carId } = useParams();
   const [toast, setToast] = useState("");
   const [isError, setIsError] = useState(false);
   const [computedPrice, setComputedPrice] = useState(0);
-  const [currentUser, setCurrentUser] = useState([]);
   const [isInvalid, setIsInvalid] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const carID = parseInt(carId);
@@ -32,7 +32,7 @@ const RentalBooking = () => {
 
   useEffect(() => {
     fetchCarData();
-
+    fetchUserData();
     if (toast) {
       const timeout = setTimeout(() => {
         setToast("");
@@ -44,6 +44,14 @@ const RentalBooking = () => {
     }
   }, [toast]);
 
+  const fetchUserData = async () => {
+    await client.get("/user").then((res) => {
+      setCurrentUser(res.data.user_id);
+      console.log("Current user dada:", currentUser);
+    }).catch((error) => {
+      console.error(error);
+    })
+  };
   const fetchCarData = async () => {
     await client
       .get("/carlisting")
@@ -90,6 +98,7 @@ const RentalBooking = () => {
     formDataToSend.append("drop_time", timeValueDrop);
     formDataToSend.append("drop_contact", formData.drop_contact);
     formDataToSend.append("total_price", computedPrice);
+    formDataToSend.append("current_user", currentUser);
 
     const csrfToken = document.cookie
       .split("; ")

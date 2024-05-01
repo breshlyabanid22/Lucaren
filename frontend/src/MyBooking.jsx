@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { client } from "./Url";
-import { UserContext } from "./App";
 
 const MyBooking = () => {
-  const [currentUser, setCurrentUser] = useContext(UserContext);
+  const [currentUser, setCurrentUser] = useState("");
   const [username, setUsername] = useState("");
   const [userProfile, setUserProfile] = useState("");
   const [bookingDetails, setBookingDetails] = useState([]);
@@ -40,6 +39,8 @@ const MyBooking = () => {
       console.log(res.data.username);
       setUsername(res.data.username);
       setUserProfile(res.data.user_profile);
+      setCurrentUser(res.data.user_id);
+      console.log("Current user:", currentUser);
     }).catch((error) => {
       console.error(error);
     })
@@ -168,7 +169,8 @@ const MyBooking = () => {
             <div className="mb-4 text-lg 2xl:text-xl">Booking Details</div>
             {bookingDetails.map((item, index) => (
               <>
-                <div key={index} className="bg-black rounded p-3 mb-6">
+                {item.current_user === currentUser && (
+                  <div key={index} className="bg-black rounded p-3 mb-6">
                   <div className="flex flex-wrap gap-x-6">
                     {carData.map((car, index) => {
                       if (car.car_id === item.car) {
@@ -280,6 +282,7 @@ const MyBooking = () => {
                     })}
                   </div>
                 </div>
+                )}
               </>
             ))}
           </div>

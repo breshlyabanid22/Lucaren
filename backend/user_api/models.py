@@ -67,6 +67,7 @@ class RentalBooking(models.Model):
 	drop_date = models.DateField()
 	drop_time = models.TimeField()
 	total_price = models.IntegerField(default=0)
+	current_user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
 
 class Feedback(models.Model):
 

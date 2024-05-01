@@ -36,6 +36,7 @@ const ManageProfile = () => {
       const response = await client.get("/user");
       const userData = response.data;
 
+      console.log("USer:", userData);
       setUserProfile(userData.user_profile);
 
       setFormData({
