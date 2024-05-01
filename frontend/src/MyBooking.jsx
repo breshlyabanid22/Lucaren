@@ -18,6 +18,7 @@ const MyBooking = () => {
     car_id: "",
     username: "",
     user_profile: "",
+    returned: "",
   });
   const options = [
     { label: "Select a rating", value: "" },
@@ -93,6 +94,33 @@ const MyBooking = () => {
     setReturnId(id);
   };
 
+  //Changes the availability of the car to True
+  const changeCarAvailability = async () => {
+
+    const formDataToSend = new FormData();
+
+    formDataToSend.append("available", 1);
+    // formDataToSend.append("car_id", carData.ca)
+
+    const csrfToken = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("csrftoken="))
+        .split("=")[1];
+
+    await client.put(`/carlisting/${returnId}/`, formDataToSend, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "X-CSRFToken": csrfToken,
+      },
+    }).then((res) => {
+      console.log(res.data);
+      location.reload();
+    }).catch((error) => {
+      console.error(error);
+    })
+  }
+
+  //Submits the review
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -118,7 +146,8 @@ const MyBooking = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        console.log("Successfully submitted: ",res.data);
+        changeCarAvailability();
         closeModal();
       })
       .catch((error) => {
@@ -235,13 +264,14 @@ const MyBooking = () => {
                                 onClick={() => handleDelete(item.id)}
                                 className="text-xs bg-white hover:bg-gray-400 rounded font-medium py-1 px-3 text-black"
                               >
-                                Cancel Booking
+                                  {car.available === true ? "Remove" : "Cancel Booking"}
                               </button>
                               <button
                                 onClick={() => handleReturn(car.car_id)}
-                                className="text-xs ml-2 hover:bg-amber-400 focus:ring-amber-200 focus:ring-1 focus:outline-none bg-yellow rounded font-medium py-1 px-3 text-black"
+                                disabled={car.available}
+                                className={`${car.available ? "text-gray-500" : "hover:bg-amber-400 bg-yellow focus:ring-amber-200"} text-xs ml-2  focus:ring-1 focus:outline-none rounded font-medium py-1 px-3 text-black`}
                               >
-                                Return Now
+                                {car.available === true ? "Returned" : "Return Now"}
                               </button>
                             </div>
                           </>

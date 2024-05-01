@@ -108,6 +108,7 @@ const RentalBooking = () => {
         setToast("Booking Successful. Please check your booking details.");
         setComputedPrice(0);
         setIsSaved(true);
+        changeCarAvailability();
       })
       .catch((error) => {
         console.error(error.response);
@@ -148,6 +149,29 @@ const RentalBooking = () => {
       setComputedPrice(totalPrice.toFixed(2));
     }
   };
+
+  const changeCarAvailability = async () => {
+
+    const formDataToSend = new FormData();
+
+    formDataToSend.append("available", 0);
+
+    const csrfToken = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("csrftoken="))
+        .split("=")[1];
+
+    await client.put(`/carlisting/${carID}/`, formDataToSend, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "X-CSRFToken": csrfToken,
+      },
+    }).then((res) => {
+      console.log(res.data);
+    }).catch((error) => {
+      console.error(error);
+    })
+  }
   return (
     <>
       <div className="flex flex-col justify-center mb-20 mt-24 2xl:mt-40 mx-auto text-white md:w-10/12 2xl:w-3/5">

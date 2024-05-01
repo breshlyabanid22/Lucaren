@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { client } from "./Url";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +12,17 @@ const Login = () => {
   const [isError, setIsError] = useState(false);
   const [toast, setToast] = useState("");
   const [currentUser, setCurrentUser] = useContext(UserContext);
+
+  useEffect(() => {
+
+    if(toast){
+      const timeout = setTimeout(() => {
+        setToast("");
+      }, 3000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [toast])
 
   function submitLogin(e) {
     e.preventDefault();

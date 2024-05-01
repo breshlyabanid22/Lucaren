@@ -47,12 +47,13 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
 class CarListing(models.Model):
 
 	car_id = models.AutoField(primary_key=True)
-	make = models.CharField(max_length=50)
-	model = models.CharField(max_length=50)
-	model_year = models.PositiveIntegerField()
-	daily_rate = models.IntegerField()
-	transmission = models.CharField(max_length=20)
+	make = models.CharField(max_length=50, blank=True)
+	model = models.CharField(max_length=50, blank=True)
+	model_year = models.PositiveIntegerField(blank=True)
+	daily_rate = models.IntegerField(blank=True)
+	transmission = models.CharField(max_length=20, blank=True)
 	image_file = models.ImageField(blank=True, upload_to='car_images/')
+	available = models.BooleanField(default=True)
 
 class RentalBooking(models.Model):
 
@@ -70,7 +71,7 @@ class RentalBooking(models.Model):
 class Feedback(models.Model):
 
 	rating = models.IntegerField()
-	comment = models.CharField(max_length=100)
+	comment = models.CharField(max_length=100, blank=True)
 	date_posted = models.DateTimeField(auto_now_add=True, null=True)
 	car_id = models.IntegerField(null=True)
 	username = models.CharField(max_length=100, blank=True)

@@ -96,7 +96,7 @@ const Cars = () => {
                 <FontAwesomeIcon icon={faAngleDown} />
               </button>
               <button
-                // onClick={() => handleSort('daily_rate')}
+                onClick={() => handleSort('daily_rate')}
                 className="flex items-center gap-2 border px-4 py-1 rounded-lg hover:text-yellow hover:border-yellow"
               >
                 Rating
@@ -114,7 +114,9 @@ const Cars = () => {
                   : car.make.toLowerCase().includes(search.toLowerCase());
               })
               .map((car, index) => (
-                <Link
+                //show if availble
+                car.available ? (
+                  <Link
                   to={`/cars/${car.car_id}`}
                   key={index}
                   className="relative w-[250px] h-[270px] 2xl:w-[370px] 2xl:h-[390px] hover:scale-105 duration-75 shadow-lg"
@@ -130,6 +132,9 @@ const Cars = () => {
                     </div>
                   </div>
                 </Link>
+                ) : (
+                  <div></div>
+                )
               ))}
         </div>
       </div>

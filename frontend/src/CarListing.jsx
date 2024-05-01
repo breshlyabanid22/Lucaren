@@ -26,7 +26,6 @@ const CarListing = () => {
     daily_rate: "",
     transmission: "",
     image_file: "",
-    owner: "",
   });
   const baseUrl = "http://localhost:8000";
   useEffect(() => {
