@@ -81,6 +81,7 @@ const MyBooking = () => {
       })
       .then((res) => {
         setIsDeleted(true);
+        changeCarAvailability();
       })
       .catch((error) => {
         console.error(error);
@@ -101,7 +102,6 @@ const MyBooking = () => {
     const formDataToSend = new FormData();
 
     formDataToSend.append("available", 1);
-    // formDataToSend.append("car_id", carData.ca)
 
     const csrfToken = document.cookie
         .split("; ")

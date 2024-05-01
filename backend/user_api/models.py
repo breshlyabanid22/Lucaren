@@ -73,7 +73,7 @@ class Feedback(models.Model):
 
 	rating = models.IntegerField()
 	comment = models.CharField(max_length=100, blank=True)
-	date_posted = models.DateTimeField(auto_now_add=True, null=True)
+	date_posted = models.DateField(auto_now_add=True, null=True)
 	car_id = models.IntegerField(null=True)
 	username = models.CharField(max_length=100, blank=True)
 	user_profile = models.CharField(max_length=100, blank=True)

@@ -2,7 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import { client } from "./Url";
 import { UserContext } from "./App";
-
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const SingleCarPage = () => {
   const { carId } = useParams();
@@ -72,12 +73,16 @@ const SingleCarPage = () => {
                         <p className="text-xs text-slate-500">{data.date_posted}</p>
                       </div>
                       <div className="flex gap-x-2 my-2">
-                        <p>Rating:</p>
-                        <p className="text-yellow">{data.rating}/5</p>
+                        <p className="text-xs">Rating:</p>
+                        {[...Array(data.rating)].map(star => {
+                          return (
+                            <FontAwesomeIcon icon={faStar} style={{color: "#FFD43B",}} />
+                          )
+                        })}
                       </div>
                       {data.comment && (
                        <>
-                        <p className=" mb-2">Comments:</p>
+                        <p className=" mb-2 text-xs">Comments:</p>
                         <p className="bg-black-2 px-2 py-3 text-xs rounded">{data.comment}</p>
                        </>
                       )
