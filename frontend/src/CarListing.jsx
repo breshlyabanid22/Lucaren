@@ -26,6 +26,7 @@ const CarListing = () => {
     daily_rate: "",
     transmission: "",
     image_file: "",
+    available: true,
   });
   const baseUrl = "http://localhost:8000";
   useEffect(() => {
@@ -106,6 +107,7 @@ const CarListing = () => {
       if (value !== "" || value !== null) {
         formDataToSend.append(key, value);
       }
+      formDataToSend.append("available", true);
 
     });
     try {
@@ -132,6 +134,7 @@ const CarListing = () => {
             transmission: "",
             image_file: "",
           });
+          console.log("Available: ", formData.available);
           isSaved ? setIsSaved(false) : setIsSaved(true);
         })
         .catch((error) => {

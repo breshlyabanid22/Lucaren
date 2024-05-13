@@ -163,7 +163,7 @@ const RentalBooking = () => {
 
     const formDataToSend = new FormData();
 
-    formDataToSend.append("available", 0);
+    formDataToSend.append("available", false);
 
     const csrfToken = document.cookie
         .split("; ")
