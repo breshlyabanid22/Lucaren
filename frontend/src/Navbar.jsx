@@ -22,7 +22,6 @@ const Navbar = () => {
     { name: "Home", href: "/" },
     { name: "Cars", href: "/cars" },
     { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
   ];
   const [userProfile, setUserProfile] = useState({
     username: "",
@@ -94,7 +93,7 @@ const Navbar = () => {
           <img src={Logo} alt="Lucaren logo" />
         </div>
         <div className="hidden md:block">
-          <ul className="grid content-start grid-cols-4 gap-8 p-0 m-0">
+          <ul className="grid content-start grid-cols-3 gap-8 p-0 m-0">
             {navigation.map((item, index) => (
               <li key={index} className="text-center">
                 <Link
