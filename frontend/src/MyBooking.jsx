@@ -36,11 +36,9 @@ const MyBooking = () => {
 
   const fetchUserData = async () => {
     await client.get("/user").then((res) => {
-      console.log(res.data.username);
       setUsername(res.data.username);
       setUserProfile(res.data.user_profile);
       setCurrentUser(res.data.user_id);
-      console.log("Current user:", currentUser);
     }).catch((error) => {
       console.error(error);
     })
@@ -101,7 +99,7 @@ const MyBooking = () => {
 
     const formDataToSend = new FormData();
 
-    formDataToSend.append("available", 1);
+    formDataToSend.append("available", true);
 
     const csrfToken = document.cookie
         .split("; ")
@@ -177,11 +175,10 @@ const MyBooking = () => {
                         return (
                           <>
                             <img
-                              key={index}
                               src={baseUrl + car.image_file}
                               className="w-40 rounded object-cover"
                             />
-                            <div className="flex flex-col gap-y-2">
+                            <div key={index} className="flex flex-col gap-y-2">
                               <p className="text-yellow mb-2">Car Details</p>
                               <span className="text-xs text-gray-500">
                                 Id:{" "}

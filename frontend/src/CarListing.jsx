@@ -82,6 +82,7 @@ const CarListing = () => {
             model_year: carDataResponse.model_year,
             daily_rate: carDataResponse.daily_rate,
             transmission: "",
+            available: carDataResponse.available,
           });
         }
         setCarData(res.data);
@@ -134,7 +135,6 @@ const CarListing = () => {
             transmission: "",
             image_file: "",
           });
-          console.log("Available: ", formData.available);
           isSaved ? setIsSaved(false) : setIsSaved(true);
         })
         .catch((error) => {
@@ -151,6 +151,9 @@ const CarListing = () => {
     e.preventDefault();
 
     const formDataToSend = new FormData();
+
+    
+    formData.available ? formDataToSend.append("available", true) : formDataToSend.append("available", false);
 
     Object.entries(formData).forEach(([key, value]) => {
       if (value !== "") {

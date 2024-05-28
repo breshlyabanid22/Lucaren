@@ -1,5 +1,5 @@
-// import {services} from './constants';
-// import ServiceCard from './components/ServiceCard';
+import {services} from './constants';
+import ServiceCard from './components/ServiceCard';
  
 const About = () => {
   return (
@@ -15,9 +15,9 @@ const About = () => {
       </div>
  
       <div className="max-container flex justify-center flex-wrap gap-9">
-        {/* {services.map((service) => (
+        {services.map((service) => (
           <ServiceCard key={service.label} {...service} />
-        ))} */}
+        ))}
       </div>
  
     </div>

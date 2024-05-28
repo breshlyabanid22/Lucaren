@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { client } from "./Url";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
  
 const Home = () => {
   const [carData, setCarData] = useState([]);
   const [visibleCars, setVisibleCars] = useState([]);
   const [carOfTheDay, setCarOfTheDay] = useState(null);
-  const [search, setSearch] = useState("");
-  const [order, setOrder] = useState("ASC");
+
   const baseUrl = "http://localhost:8000";
   const navigate = useNavigate();
  
@@ -47,24 +44,6 @@ const Home = () => {
  
   const changeCarOfTheDay = () => {
     setCarOfTheDay(getRandomCars(carData, 1)[0]);
-  };
- 
-  const handleSort = (filter) => {
-    const sorted = [...carData].sort((a, b) => {
-      if (typeof a[filter] === "string" && typeof b[filter] === "string") {
-        return order === "ASC"
-          ? a[filter].toLowerCase() > b[filter].toLowerCase()
-            ? 1
-            : -1
-          : a[filter].toLowerCase() < b[filter].toLowerCase()
-          ? 1
-          : -1;
-      } else {
-        return order === "ASC" ? a[filter] - b[filter] : b[filter] - a[filter];
-      }
-    });
-    setCarData(sorted);
-    setOrder(order === "ASC" ? "DSC" : "ASC");
   };
 
  

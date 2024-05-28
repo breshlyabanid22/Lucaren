@@ -21,8 +21,6 @@ const Cars = () => {
     await client
       .get("/carlisting")
       .then((res) => {
-        console.log(res.data);
-
         setCarData(res.data);
       })
       .catch((err) => console.error(err));

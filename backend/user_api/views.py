@@ -155,6 +155,7 @@ class RentalBookingDetails(ListAPIView):
 
 class FeedbackView(APIView):
 
+	@method_decorator(csrf_exempt)
 	def get(self, request):
 		feedback_objects = Feedback.objects.all()
 
