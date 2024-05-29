@@ -12,7 +12,6 @@ dist
 dist-ssr
 *.local
 #Remove the settings.py from git's tracking, so any changes made in settings.py will not be tracked
-settings.py
 backend/venv
 backend/media/images/
 backend/media
